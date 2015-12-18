@@ -31,7 +31,6 @@ def newAdministrateurItem():
         try:
             session.commit()
         except Exception as e:
-            #log your exception in the way you want -> log to file, log as error with default logging, send by email. It's upon you
             session.rollback()
             session.flush() # for resetting non-commited .add()
             failed=True
@@ -68,7 +67,18 @@ def newFormateurItem():
                                 type_formation=request.form['type_formation'])
 
         session.add(newItem)
-        session.commit()
+        failed=False
+        try:
+            session.commit()
+        except Exception as e:
+            session.rollback()
+            session.flush() # for resetting non-commited .add()
+            failed=True
+
+        if failed==False:
+            return {'success':'success operation'}
+        else:
+            return {'error':'failed operation'}
 
 # CRUD Delete : Formateur
 @app.route('/v1/formateur/del/<int:ident>')
@@ -127,7 +137,18 @@ def newFormationItem():
                             date_fin_form=request.form['date_fin_form'], id_categ=request.form['id_categ'])
 
         session.add(newItem)
-        session.commit()
+        failed=False
+        try:
+            session.commit()
+        except Exception as e:
+            session.rollback()
+            session.flush() # for resetting non-commited .add()
+            failed=True
+
+        if failed==False:
+            return {'success':'success operation'}
+        else:
+            return {'error':'failed operation'}
 
 # CRUD Delete : Formation
 @app.route('/v1/formation/del/<int:ident>')
@@ -163,7 +184,18 @@ def newRegroupementItem():
         newItem = Regroupement(date_group=request.form['date_group'], id_form=request.form['id_form'])
 
         session.add(newItem)
-        session.commit()
+        failed=False
+        try:
+            session.commit()
+        except Exception as e:
+            session.rollback()
+            session.flush() # for resetting non-commited .add()
+            failed=True
+
+        if failed==False:
+            return {'success':'success operation'}
+        else:
+            return {'error':'failed operation'}
 
 # CRUD Delete : Regroupement
 @app.route('/v1/regroupement/del/<int:ident>')
@@ -180,7 +212,18 @@ def newCoursItem():
         newItem = Cours(lib_cour=request.form['lib_cour'], id_form=request.form['id_form'])
 
         session.add(newItem)
-        session.commit()
+        failed=False
+        try:
+            session.commit()
+        except Exception as e:
+            session.rollback()
+            session.flush() # for resetting non-commited .add()
+            failed=True
+
+        if failed==False:
+            return {'success':'success operation'}
+        else:
+            return {'error':'failed operation'}
 
 # CRUD Delete : Cours
 @app.route('/v1/cours/del/<int:ident>')
@@ -197,7 +240,18 @@ def newChapitreItem():
         newItem = Chapitre(lib_chap=request.form['lib_chap'], id_cours=request.form['id_cours'])
 
         session.add(newItem)
-        session.commit()
+        failed=False
+        try:
+            session.commit()
+        except Exception as e:
+            session.rollback()
+            session.flush() # for resetting non-commited .add()
+            failed=True
+
+        if failed==False:
+            return {'success':'success operation'}
+        else:
+            return {'error':'failed operation'}
 
 # CRUD Delete : Chapitre
 @app.route('/v1/chapitre/del/<int:ident>')
@@ -215,7 +269,18 @@ def newRessourceItem():
                             id_chap=request.form['id_chap'])
 
         session.add(newItem)
-        session.commit()
+        failed=False
+        try:
+            session.commit()
+        except Exception as e:
+            session.rollback()
+            session.flush() # for resetting non-commited .add()
+            failed=True
+
+        if failed==False:
+            return {'success':'success operation'}
+        else:
+            return {'error':'failed operation'}
 
 # CRUD Delete : Ressource
 @app.route('/v1/ressource/del/<int:ident>')
@@ -232,7 +297,18 @@ def newAnimerItem():
         newItem = Animer(id_util=request.form['id_util'], id_form=request.form['id_form'])
 
         session.add(newItem)
-        session.commit()
+        failed=False
+        try:
+            session.commit()
+        except Exception as e:
+            session.rollback()
+            session.flush() # for resetting non-commited .add()
+            failed=True
+
+        if failed==False:
+            return {'success':'success operation'}
+        else:
+            return {'error':'failed operation'}
 
 # CRUD Delete : Animer
 @app.route('/v1/animer/del/<int:ident>')
@@ -250,7 +326,18 @@ def newTestItem():
                        date_test=request.form['date_test'], note_test=request.form['note_test'])
 
         session.add(newItem)
-        session.commit()
+        failed=False
+        try:
+            session.commit()
+        except Exception as e:
+            session.rollback()
+            session.flush() # for resetting non-commited .add()
+            failed=True
+
+        if failed==False:
+            return {'success':'success operation'}
+        else:
+            return {'error':'failed operation'}
 
 # CRUD Delete : Test
 @app.route('/v1/test/del/<int:ident>')
