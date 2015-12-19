@@ -184,7 +184,19 @@ def newApprenantItem():
                             diplome_appr=request.form['diplome_appr'], id_form=request.form['id_form'])
 
         session.add(newItem)
-        session.commit()
+
+        failed = False
+        try:
+            session.commit()
+        except Exception as e:
+            session.rollback()
+            session.flush()  # for resetting non-commited .add()
+            failed = True
+
+        if failed == False:
+            return jsonify({'state': '1', 'error': 'no error'})
+        else:
+            return jsonify({'state': '0', 'error': 'failed operation'})
 
 
 # CRUD Delete : Apprenant
@@ -277,7 +289,7 @@ def getCoursJson():
 @app.route('/v1/chapitre/new', methods=['GET', 'POST'])
 def newChapitreItem():
     if request.method == 'POST':
-        newItem = Chapitre(lib_chap=request.form['lib_chap'], id_cours=request.form['id_cours'])
+        newItem = Chapitre(lib_chap=request.form['lib_chap'], id_cour=request.form['id_cour'])
 
         session.add(newItem)
         failed = False

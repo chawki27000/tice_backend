@@ -133,7 +133,8 @@ class Apprenant(Base):
             'password_util': self.password_util,
             'login_util': self.login_util,
             'grade_util': self.grade_util,
-            'diplome_appr': self.spec_formation,
+            'diplome_appr': self.diplome_appr,
+            'id_form': self.id_form,
         }
 
 
@@ -236,7 +237,6 @@ class Animer(Base):
         return {
             'id_anim': self.id_anim,
             'id_util': self.id_util,
-            'formateur': self.formateur,
             'id_form': self.id_form,
         }
 
