@@ -104,7 +104,7 @@ def getformateurJson():
 @app.route('/v1/categorie/new', methods=['GET', 'POST'])
 def newCategorieItem():
     if request.method == 'POST':
-        newItem = Categorie(lib_categ=request.form['lib_categ'], id_util=['id_util'])
+        newItem = Categorie(lib_categ=request.form['lib_categ'], id_util=request.form['id_util'])
 
         session.add(newItem)
         failed = False
@@ -166,6 +166,12 @@ def delFormationItem(ident):
     session.delete(myItem)
     session.commit()
 
+# Making an API Endpoint (GET Request)
+@app.route('/v1/formation/all/json')
+def getFormationJson():
+    items = session.query(Formation).all()
+    return jsonify(formation=[i.serialize for i in items])
+
 
 ######################################################################
 # CRUD Create : Apprenant
@@ -187,6 +193,12 @@ def delApprenantItem(ident):
     myItem = session.query(Apprenant).filter_by(id_util=ident).one()
     session.delete(myItem)
     session.commit()
+
+# Making an API Endpoint (GET Request)
+@app.route('/v1/apprenant/all/json')
+def getApprenantJson():
+    items = session.query(Apprenant).all()
+    return jsonify(apprenant=[i.serialize for i in items])
 
 
 ######################################################################
@@ -218,6 +230,12 @@ def delRegroupementItem(ident):
     session.delete(myItem)
     session.commit()
 
+# Making an API Endpoint (GET Request)
+@app.route('/v1/regroupement/all/json')
+def getRegroupementJson():
+    items = session.query(Regroupement).all()
+    return jsonify(regroupement=[i.serialize for i in items])
+
 
 ######################################################################
 # CRUD Create : Cours
@@ -248,6 +266,11 @@ def delCoursItem(ident):
     session.delete(myItem)
     session.commit()
 
+# Making an API Endpoint (GET Request)
+@app.route('/v1/cours/all/json')
+def getCoursJson():
+    items = session.query(Cours).all()
+    return jsonify(cours=[i.serialize for i in items])
 
 ######################################################################
 # CRUD Create : Chapitre
@@ -278,6 +301,11 @@ def delChapitreItem(ident):
     session.delete(myItem)
     session.commit()
 
+# Making an API Endpoint (GET Request)
+@app.route('/v1/chapitre/all/json')
+def getChapitreJson():
+    items = session.query(Chapitre).all()
+    return jsonify(chapitre=[i.serialize for i in items])
 
 ######################################################################
 # CRUD Create : Ressource
@@ -309,6 +337,11 @@ def delRessourceItem(ident):
     session.delete(myItem)
     session.commit()
 
+# Making an API Endpoint (GET Request)
+@app.route('/v1/ressource/all/json')
+def getRessourceJson():
+    items = session.query(Ressource).all()
+    return jsonify(ressource=[i.serialize for i in items])
 
 ######################################################################
 # CRUD Create : Animer
@@ -339,6 +372,11 @@ def delAnimerItem(ident):
     session.delete(myItem)
     session.commit()
 
+# Making an API Endpoint (GET Request)
+@app.route('/v1/animer/all/json')
+def getAnimerJson():
+    items = session.query(Animer).all()
+    return jsonify(animer=[i.serialize for i in items])
 
 ######################################################################
 # CRUD Create : Test
@@ -370,6 +408,13 @@ def delTestItem(ident):
     session.delete(myItem)
     session.commit()
 
+# Making an API Endpoint (GET Request)
+@app.route('/v1/test/all/json')
+def getTestJson():
+    items = session.query(Test).all()
+    return jsonify(test=[i.serialize for i in items])
+
+######################################################################
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -379,6 +424,10 @@ def page_not_found(e):
 @app.errorhandler(500)
 def page_not_found(e):
     return jsonify({'error': '500'}), 500
+
+@app.errorhandler(405)
+def page_not_found(e):
+    return jsonify({'error': '405'}), 405
 
 
 #######################################################################

@@ -4,7 +4,7 @@ from database_setup import Base, Administrateur, Formateur, Categorie
 from database_setup import Formation, Apprenant, Regroupement, Cours
 from database_setup import Chapitre, Ressource, Animer, Test
 
-engine = create_engine('sqlite:///tice.db')
+engine = create_engine('postgresql://chawki:linux@localhost/flask_db')
 
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
