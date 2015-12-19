@@ -13,6 +13,7 @@ Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
+
 @app.route('/v1')
 def index():
     return "Index TICE API V1"
@@ -27,18 +28,19 @@ def newAdministrateurItem():
                                  login_util=request.form['login_util'], grade_util=request.form['grade_util'])
 
         session.add(newItem)
-        failed=False
+        failed = False
         try:
             session.commit()
         except Exception as e:
             session.rollback()
-            session.flush() # for resetting non-commited .add()
-            failed=True
+            session.flush()  # for resetting non-commited .add()
+            failed = True
 
-        if failed==False:
-            return {'success':'success operation'}
+        if failed == False:
+            return jsonify({'state': '1', 'error': 'no error'})
         else:
-            return {'error':'failed operation'}
+            return jsonify({'state': '0', 'error': 'failed operation'})
+
 
 # CRUD Delete : Administrateur
 @app.route('/v1/administrateur/del/<int:ident>')
@@ -46,6 +48,7 @@ def delAdministrateurItem(ident):
     myItem = session.query(Administrateur).filter_by(id_util=ident).one()
     session.delete(myItem)
     session.commit()
+
 
 # Making an API Endpoint (GET Request)
 @app.route('/v1/administrateur/all/json')
@@ -61,24 +64,25 @@ def getAdminJson():
 def newFormateurItem():
     if request.method == 'POST':
         newItem = Formateur(nom_util=request.form['nom_util'], prenom_util=request.form['prenom_util'],
-                                 mail_util=request.form['mail_util'], password_util=request.form['password_util'],
-                                 login_util=request.form['login_util'], grade_util=request.form['grade_util'],
-                                spec_formation=request.form['spec_formation'],
-                                type_formation=request.form['type_formation'])
+                            mail_util=request.form['mail_util'], password_util=request.form['password_util'],
+                            login_util=request.form['login_util'], grade_util=request.form['grade_util'],
+                            spec_formation=request.form['spec_formation'],
+                            type_formation=request.form['type_formation'])
 
         session.add(newItem)
-        failed=False
+        failed = False
         try:
             session.commit()
         except Exception as e:
             session.rollback()
-            session.flush() # for resetting non-commited .add()
-            failed=True
+            session.flush()  # for resetting non-commited .add()
+            failed = True
 
-        if failed==False:
-            return {'success':'success operation'}
+        if failed == False:
+            return jsonify({'state': '1', 'error': 'no error'})
         else:
-            return {'error':'failed operation'}
+            return jsonify({'state': '0', 'error': 'failed operation'})
+
 
 # CRUD Delete : Formateur
 @app.route('/v1/formateur/del/<int:ident>')
@@ -86,6 +90,7 @@ def delFormateurItem(ident):
     myItem = session.query(Formateur).filter_by(id_util=ident).one()
     session.delete(myItem)
     session.commit()
+
 
 # Making an API Endpoint (GET Request)
 @app.route('/v1/formateur/all/json')
@@ -102,18 +107,19 @@ def newCategorieItem():
         newItem = Categorie(lib_categ=request.form['lib_categ'], id_util=['id_util'])
 
         session.add(newItem)
-        failed=False
+        failed = False
         try:
             session.commit()
         except Exception as e:
             session.rollback()
-            session.flush() # for resetting non-commited .add()
-            failed=True
+            session.flush()  # for resetting non-commited .add()
+            failed = True
 
-        if failed==False:
-            return {'success':'success operation'}
+        if failed == False:
+            return jsonify({'state': '1', 'error': 'no error'})
         else:
-            return {'error':'failed operation'}
+            return jsonify({'state': '0', 'error': 'failed operation'})
+
 
 # CRUD Delete : Categorie
 @app.route('/v1/categorie/del/<int:ident>')
@@ -122,11 +128,13 @@ def delCategorieItem(ident):
     session.delete(myItem)
     session.commit()
 
+
 # Making an API Endpoint (GET Request)
 @app.route('/v1/categorie/all/json')
 def getCategorieJson():
     items = session.query(Categorie).all()
     return jsonify(categorie=[i.serialize for i in items])
+
 
 ######################################################################
 # CRUD Create : Formation
@@ -137,18 +145,19 @@ def newFormationItem():
                             date_fin_form=request.form['date_fin_form'], id_categ=request.form['id_categ'])
 
         session.add(newItem)
-        failed=False
+        failed = False
         try:
             session.commit()
         except Exception as e:
             session.rollback()
-            session.flush() # for resetting non-commited .add()
-            failed=True
+            session.flush()  # for resetting non-commited .add()
+            failed = True
 
-        if failed==False:
-            return {'success':'success operation'}
+        if failed == False:
+            return jsonify({'state': '1', 'error': 'no error'})
         else:
-            return {'error':'failed operation'}
+            return jsonify({'state': '0', 'error': 'failed operation'})
+
 
 # CRUD Delete : Formation
 @app.route('/v1/formation/del/<int:ident>')
@@ -156,18 +165,21 @@ def delFormationItem(ident):
     myItem = session.query(Formation).filter_by(id_form=ident).one()
     session.delete(myItem)
     session.commit()
+
+
 ######################################################################
 # CRUD Create : Apprenant
 @app.route('/v1/apprenant/new', methods=['GET', 'POST'])
 def newApprenantItem():
     if request.method == 'POST':
         newItem = Apprenant(nom_util=request.form['nom_util'], prenom_util=request.form['prenom_util'],
-                                 mail_util=request.form['mail_util'], password_util=request.form['password_util'],
-                                 login_util=request.form['login_util'], grade_util=request.form['grade_util'],
+                            mail_util=request.form['mail_util'], password_util=request.form['password_util'],
+                            login_util=request.form['login_util'], grade_util=request.form['grade_util'],
                             diplome_appr=request.form['diplome_appr'], id_form=request.form['id_form'])
 
         session.add(newItem)
         session.commit()
+
 
 # CRUD Delete : Apprenant
 @app.route('/v1/apprenant/del/<int:ident>')
@@ -175,6 +187,7 @@ def delApprenantItem(ident):
     myItem = session.query(Apprenant).filter_by(id_util=ident).one()
     session.delete(myItem)
     session.commit()
+
 
 ######################################################################
 # CRUD Create : Regroupement
@@ -184,25 +197,27 @@ def newRegroupementItem():
         newItem = Regroupement(date_group=request.form['date_group'], id_form=request.form['id_form'])
 
         session.add(newItem)
-        failed=False
+        failed = False
         try:
             session.commit()
         except Exception as e:
             session.rollback()
-            session.flush() # for resetting non-commited .add()
-            failed=True
+            session.flush()  # for resetting non-commited .add()
+            failed = True
 
-        if failed==False:
-            return {'success':'success operation'}
+        if failed == False:
+            return jsonify({'state': '1', 'error': 'no error'})
         else:
-            return {'error':'failed operation'}
+            return jsonify({'state': '0', 'error': 'failed operation'})
+
 
 # CRUD Delete : Regroupement
 @app.route('/v1/regroupement/del/<int:ident>')
-def delRegroupementItem(ident) :
+def delRegroupementItem(ident):
     myItem = session.query(Regroupement).filter_by(id_group=ident).one()
     session.delete(myItem)
     session.commit()
+
 
 ######################################################################
 # CRUD Create : Cours
@@ -212,18 +227,19 @@ def newCoursItem():
         newItem = Cours(lib_cour=request.form['lib_cour'], id_form=request.form['id_form'])
 
         session.add(newItem)
-        failed=False
+        failed = False
         try:
             session.commit()
         except Exception as e:
             session.rollback()
-            session.flush() # for resetting non-commited .add()
-            failed=True
+            session.flush()  # for resetting non-commited .add()
+            failed = True
 
-        if failed==False:
-            return {'success':'success operation'}
+        if failed == False:
+            return jsonify({'state': '1', 'error': 'no error'})
         else:
-            return {'error':'failed operation'}
+            return jsonify({'state': '0', 'error': 'failed operation'})
+
 
 # CRUD Delete : Cours
 @app.route('/v1/cours/del/<int:ident>')
@@ -231,6 +247,7 @@ def delCoursItem(ident):
     myItem = session.query(Cours).filter_by(id_cour=ident).one()
     session.delete(myItem)
     session.commit()
+
 
 ######################################################################
 # CRUD Create : Chapitre
@@ -240,18 +257,19 @@ def newChapitreItem():
         newItem = Chapitre(lib_chap=request.form['lib_chap'], id_cours=request.form['id_cours'])
 
         session.add(newItem)
-        failed=False
+        failed = False
         try:
             session.commit()
         except Exception as e:
             session.rollback()
-            session.flush() # for resetting non-commited .add()
-            failed=True
+            session.flush()  # for resetting non-commited .add()
+            failed = True
 
-        if failed==False:
-            return {'success':'success operation'}
+        if failed == False:
+            return jsonify({'state': '1', 'error': 'no error'})
         else:
-            return {'error':'failed operation'}
+            return jsonify({'state': '0', 'error': 'failed operation'})
+
 
 # CRUD Delete : Chapitre
 @app.route('/v1/chapitre/del/<int:ident>')
@@ -259,6 +277,7 @@ def delChapitreItem(ident):
     myItem = session.query(Chapitre).filter_by(id_chap=ident).one()
     session.delete(myItem)
     session.commit()
+
 
 ######################################################################
 # CRUD Create : Ressource
@@ -269,18 +288,19 @@ def newRessourceItem():
                             id_chap=request.form['id_chap'])
 
         session.add(newItem)
-        failed=False
+        failed = False
         try:
             session.commit()
         except Exception as e:
             session.rollback()
-            session.flush() # for resetting non-commited .add()
-            failed=True
+            session.flush()  # for resetting non-commited .add()
+            failed = True
 
-        if failed==False:
-            return {'success':'success operation'}
+        if failed == False:
+            return jsonify({'state': '1', 'error': 'no error'})
         else:
-            return {'error':'failed operation'}
+            return jsonify({'state': '0', 'error': 'failed operation'})
+
 
 # CRUD Delete : Ressource
 @app.route('/v1/ressource/del/<int:ident>')
@@ -288,6 +308,7 @@ def delRessourceItem(ident):
     myItem = session.query(Ressource).filter_by(id_ress=ident).one()
     session.delete(myItem)
     session.commit()
+
 
 ######################################################################
 # CRUD Create : Animer
@@ -297,18 +318,19 @@ def newAnimerItem():
         newItem = Animer(id_util=request.form['id_util'], id_form=request.form['id_form'])
 
         session.add(newItem)
-        failed=False
+        failed = False
         try:
             session.commit()
         except Exception as e:
             session.rollback()
-            session.flush() # for resetting non-commited .add()
-            failed=True
+            session.flush()  # for resetting non-commited .add()
+            failed = True
 
-        if failed==False:
-            return {'success':'success operation'}
+        if failed == False:
+            return jsonify({'state': '1', 'error': 'no error'})
         else:
-            return {'error':'failed operation'}
+            return jsonify({'state': '0', 'error': 'failed operation'})
+
 
 # CRUD Delete : Animer
 @app.route('/v1/animer/del/<int:ident>')
@@ -316,6 +338,7 @@ def delAnimerItem(ident):
     myItem = session.query(Animer).filter_by(id_anim=ident).one()
     session.delete(myItem)
     session.commit()
+
 
 ######################################################################
 # CRUD Create : Test
@@ -326,18 +349,19 @@ def newTestItem():
                        date_test=request.form['date_test'], note_test=request.form['note_test'])
 
         session.add(newItem)
-        failed=False
+        failed = False
         try:
             session.commit()
         except Exception as e:
             session.rollback()
-            session.flush() # for resetting non-commited .add()
-            failed=True
+            session.flush()  # for resetting non-commited .add()
+            failed = True
 
-        if failed==False:
-            return {'success':'success operation'}
+        if failed == False:
+            return jsonify({'state': '1', 'error': 'no error'})
         else:
-            return {'error':'failed operation'}
+            return jsonify({'state': '0', 'error': 'failed operation'})
+
 
 # CRUD Delete : Test
 @app.route('/v1/test/del/<int:ident>')
@@ -345,6 +369,17 @@ def delTestItem(ident):
     myItem = session.query(Test).filter_by(id_test=ident).one()
     session.delete(myItem)
     session.commit()
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return jsonify({'error': '404'}), 404
+
+
+@app.errorhandler(500)
+def page_not_found(e):
+    return jsonify({'error': '500'}), 500
+
 
 #######################################################################
 if __name__ == '__main__':

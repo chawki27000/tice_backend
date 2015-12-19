@@ -23,13 +23,13 @@ class Administrateur(Base):
     @property
     def serialize(self):
         return {
-            'id_util':      self.id_util,
-            'nom_util':     self.nom_util,
-            'prenom_util':  self.prenom_util,
-            'mail_util':    self.mail_util,
+            'id_util': self.id_util,
+            'nom_util': self.nom_util,
+            'prenom_util': self.prenom_util,
+            'mail_util': self.mail_util,
             'password_util': self.password_util,
-            'login_util':   self.login_util,
-            'grade_util':   self.grade_util,
+            'login_util': self.login_util,
+            'grade_util': self.grade_util,
         }
 
 
@@ -51,15 +51,15 @@ class Formateur(Base):
     @property
     def serialize(self):
         return {
-            'id_util':          self.id_util,
-            'nom_util':         self.nom_util,
-            'prenom_util':      self.prenom_util,
-            'mail_util':        self.mail_util,
-            'password_util':    self.password_util,
-            'login_util':       self.login_util,
-            'grade_util':       self.grade_util,
-            'spec_formation':   self.spec_formation,
-            'type_formation':   self.type_formation,
+            'id_util': self.id_util,
+            'nom_util': self.nom_util,
+            'prenom_util': self.prenom_util,
+            'mail_util': self.mail_util,
+            'password_util': self.password_util,
+            'login_util': self.login_util,
+            'grade_util': self.grade_util,
+            'spec_formation': self.spec_formation,
+            'type_formation': self.type_formation,
         }
 
 
@@ -77,9 +77,9 @@ class Categorie(Base):
     @property
     def serialize(self):
         return {
-            'id_categ':  self.id_categ,
+            'id_categ': self.id_categ,
             'lib_categ': self.lib_categ,
-            'id_util':   self.id_util,
+            'id_util': self.id_util,
         }
 
 
@@ -187,4 +187,3 @@ class Test(Base):
 
 engine = create_engine('postgresql://chawki:linux@localhost/flask_db')
 Base.metadata.create_all(engine)
-
